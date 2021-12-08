@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">OSRSCritic</string>
+    <string name="text_logo_critic">Critic</string>
+    <string name="other_email_txt">Other Email</string>
 </resources>

@@ -7,4 +7,7 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="osrs_bg">#707888</color>
+    <color name="osrs_logo_color">#881212</color>
+    <color name="osrs_logo_font_color">#e9d593</color>
 </resources>
