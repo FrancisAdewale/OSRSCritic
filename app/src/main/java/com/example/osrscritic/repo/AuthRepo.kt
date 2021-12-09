@@ -1,7 +1,10 @@
 package com.example.osrscritic.repo
 
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import com.example.osrscritic.model.ResponseState
+import com.example.osrscritic.model.GoogleUser
 import com.example.osrscritic.model.User
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
@@ -13,8 +16,8 @@ class AuthRepo {
     private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
     private val rootRef: FirebaseFirestore = FirebaseFirestore.getInstance()
 
-    fun firebaseSignInWithGoogle(googleAuthCredential: AuthCredential): MutableLiveData<ResponseState<User>> {
-        val authenticatedUserMutableLiveData: MutableLiveData<ResponseState<User>> =
+    fun firebaseSignInWithGoogle(googleAuthCredential: AuthCredential): MutableLiveData<ResponseState<GoogleUser>> {
+        val authenticatedGoogleUserMutableLiveData: MutableLiveData<ResponseState<GoogleUser>> =
             MutableLiveData()
 
         firebaseAuth.signInWithCredential(googleAuthCredential).addOnCompleteListener { authTask ->
@@ -25,24 +28,48 @@ class AuthRepo {
                     val uid = firebaseUser.uid
                     val name = firebaseUser.displayName
                     val email = firebaseUser.email
-                    val user = User(uid = uid, name = name, email = email)
+                    val user = GoogleUser(uid = uid, name = name, email = email)
                     user.isNew = isNewUser
-                    authenticatedUserMutableLiveData.value = ResponseState.Success(user)
-
+                    authenticatedGoogleUserMutableLiveData.value = ResponseState.Success(user)
                 }
 
-
             } else {
-
-                authenticatedUserMutableLiveData.value = authTask.exception?.message?.let {
+                authenticatedGoogleUserMutableLiveData.value = authTask.exception?.message?.let {
                     ResponseState.Error(it)
                 }
 
             }
-
-
         }
-        return authenticatedUserMutableLiveData
+        return authenticatedGoogleUserMutableLiveData
+    }
+
+    fun firebaseCreateUserWithPassword(email: String, password: String): MutableLiveData<ResponseState<User>> {
+        val authenticatedOtherUserMutableLiveData: MutableLiveData<ResponseState<User>> =
+            MutableLiveData()
+
+        firebaseAuth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d("createemail/pass", "createUserWithEmail:success")
+                    val user = firebaseAuth.currentUser
+                    if (user != null) {
+                        val uid = user.uid
+                        val email = email
+                        val password = password
+                        val otherUser = User(uid = uid, email = email, password = password)
+                        authenticatedOtherUserMutableLiveData.value =
+                            ResponseState.Success(otherUser)
+                    }
+
+                } else {
+                    authenticatedOtherUserMutableLiveData.value = task.exception?.message?.let {
+                        ResponseState.Error(it)
+                    }
+                }
+            }
+
+        return authenticatedOtherUserMutableLiveData
     }
 
 

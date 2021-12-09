@@ -2,4 +2,8 @@
     <string name="app_name">OSRSCritic</string>
     <string name="text_logo_critic">Critic</string>
     <string name="other_email_txt">Other Email</string>
+    <string name="et_email_hint">Email</string>
+    <string name="et_password_hint">Password</string>
+    <string name="registerinfo_tv">Don\'t have an account? register here</string>
+    <string name="other_email_login_btn">Log In</string>
 </resources>

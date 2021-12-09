@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/osrs_bg"
-    tools:context=".MainActivity">
+    tools:context=".IndexActivity">
 
     <ImageView
         android:id="@+id/osrs_logo"
@@ -44,6 +44,7 @@
         />
 
     <Button
+        android:id="@+id/other_email_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"

@@ -15,7 +15,9 @@ class OSRSCriticApp : Application() {
             androidContext(this@OSRSCriticApp)
             modules(
                 listOf(
-                    googleLoginViewModelModule
+                    googleLoginViewModelModule,
+                    otherLoginViewModelModule,
+                    authModule,
                 )
             )
         }
