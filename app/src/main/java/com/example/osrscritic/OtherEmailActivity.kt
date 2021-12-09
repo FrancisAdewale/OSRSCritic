@@ -49,7 +49,6 @@ class OtherEmailActivity : AppCompatActivity() {
             override fun afterTextChanged(p0: Editable?) {
                 password = binding.passwordEditText.text.toString()
                 Log.d("password textwatcher", password)
-
             }
 
         })
@@ -59,8 +58,6 @@ class OtherEmailActivity : AppCompatActivity() {
         }
 
     }
-
-
 
     private fun createUserWithEmailAndPass() {
 
