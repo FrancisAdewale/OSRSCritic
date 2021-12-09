@@ -21,6 +21,7 @@
         android:gravity="center"
         android:textColor="@color/osrs_logo_font_color"
         android:textColorHint="@color/osrs_logo_font_color"
+        android:inputType="textEmailAddress"
         />
 
     <EditText
@@ -36,6 +37,7 @@
         android:gravity="center"
         android:textColor="@color/osrs_logo_font_color"
         android:textColorHint="@color/osrs_logo_font_color"
+        android:inputType="textPassword"
         />
 
     <TextView
@@ -50,7 +52,7 @@
         android:text="@string/registerinfo_tv"
         android:textSize="20sp"
         android:gravity="center"
-        android:textColor="@color/osrs_logo_color"
+        android:textColor="@color/osrs_logo_font_color"
         android:focusable="true" />
 
     <Button
