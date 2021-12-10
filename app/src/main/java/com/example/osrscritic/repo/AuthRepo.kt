@@ -10,11 +10,11 @@ import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
+import java.util.HashMap
 
 class AuthRepo {
 
     private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
-    private val rootRef: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     fun firebaseSignInWithGoogle(googleAuthCredential: AuthCredential): MutableLiveData<ResponseState<GoogleUser>> {
         val authenticatedGoogleUserMutableLiveData: MutableLiveData<ResponseState<GoogleUser>> =
@@ -30,6 +30,7 @@ class AuthRepo {
                     val email = firebaseUser.email
                     val user = GoogleUser(uid = uid, name = name, email = email)
                     user.isNew = isNewUser
+
                     authenticatedGoogleUserMutableLiveData.value = ResponseState.Success(user)
                 }
 

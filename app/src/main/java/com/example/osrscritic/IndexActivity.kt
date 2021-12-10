@@ -3,7 +3,6 @@ package com.example.osrscritic
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.location.Location
 import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -13,6 +12,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.example.osrscritic.databinding.ActivityIndexBinding
+import com.example.osrscritic.model.GoogleUser
 import com.example.osrscritic.model.ResponseState
 import com.example.osrscritic.viewmodel.GoogleLoginViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -21,7 +21,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.location.*
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.GoogleAuthProvider
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -34,6 +33,7 @@ class IndexActivity : AppCompatActivity() {
     lateinit var mLocationProviderClient: FusedLocationProviderClient
     lateinit var binding: ActivityIndexBinding
     private val googleLoginViewModel : GoogleLoginViewModel by viewModel()
+    lateinit var googleUser : GoogleUser
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -42,15 +42,13 @@ class IndexActivity : AppCompatActivity() {
         setContentView(binding.root)
         mLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         getLastLocation()
-
-
         initGoogleSignInClient()
+        googleLoginViewModel.getFirebaseDbRef()
+
 
         binding.googleSignIn.setOnClickListener {
-            signInUsingGoolge()
+            signInUsingGoogle()
         }
-
-
 
         binding.otherEmailBtn.setOnClickListener {
             val createUserIntent = Intent(this,OtherEmailActivity::class.java)
@@ -69,7 +67,7 @@ class IndexActivity : AppCompatActivity() {
         googleSignInClient = GoogleSignIn.getClient(this, gso)
     }
 
-    private fun signInUsingGoolge() {
+    private fun signInUsingGoogle() {
         val signInGoogleIntent = googleSignInClient.signInIntent
         startActivityForResult(signInGoogleIntent, RC_SIGN_IN)
     }
@@ -79,6 +77,7 @@ class IndexActivity : AppCompatActivity() {
 
         if (requestCode == RC_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+
             try {
                 // Google Sign In was successful, authenticate with Firebase
                 val account = task.getResult(ApiException::class.java) !!
@@ -114,7 +113,8 @@ class IndexActivity : AppCompatActivity() {
             }
                 is ResponseState.Success -> {
                 if (authenticatedUser.data != null){
-
+                    googleUser = authenticatedUser.data
+                    getFireBaseRef()
                 }
                 //update ui
             }
@@ -124,6 +124,28 @@ class IndexActivity : AppCompatActivity() {
             }
         })
 
+    }
+
+    private fun getFireBaseRef() {
+        googleLoginViewModel.firebaseDbLiveData.observe(this, {
+
+            val u : MutableMap<String, Any> = mutableMapOf()
+            u["email"] = googleUser?.email!!
+            googleUser?.lat = lat
+            googleUser?.lng = lng
+            u["latitude"] = googleUser?.lat!!
+            u["longitude"] = googleUser?.lng!!
+            val fullName = googleUser?.name?.split("")
+            val firstName = fullName?.get(0)
+            val secondName = fullName?.get(1)
+            u["firstName"] = firstName!!
+            u["secondName"] = secondName!!
+            u["completedRegistration"] = googleUser?.completedRegistration!!
+
+            it.document(googleUser?.email!!).set(u)
+            val registerIntent = Intent(this, RegisterActivity::class.java)
+            startActivity(registerIntent)
+        })
     }
 
     private fun requestPermissions() {
