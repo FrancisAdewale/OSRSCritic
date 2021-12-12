@@ -6,7 +6,7 @@
     <string name="et_password_hint">Password</string>
     <string name="registerinfo_tv">Don\'t have an account? register here</string>
     <string name="other_email_login_btn">Log In</string>
-    <string name="registration_title">Registration</string>
+    <string name="profile_details_title">Profile Details</string>
     <string name="first_name">First Name</string>
     <string name="second_name">Second Name</string>
     <string name="osrs_account_name">OSRS Account Name</string>

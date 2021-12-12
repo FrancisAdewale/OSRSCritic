@@ -143,8 +143,8 @@ class IndexActivity : AppCompatActivity() {
             u["completedRegistration"] = googleUser?.completedRegistration!!
 
             it.document(googleUser?.email!!).set(u)
-            val registerIntent = Intent(this, RegisterActivity::class.java)
-            startActivity(registerIntent)
+            val profileDetailsIntent = Intent(this, ProfileDetailsActivity::class.java)
+            startActivity(profileDetailsIntent)
         })
     }
 
