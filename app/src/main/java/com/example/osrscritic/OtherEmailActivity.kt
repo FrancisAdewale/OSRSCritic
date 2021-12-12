@@ -14,7 +14,6 @@ import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.example.osrscritic.databinding.ActivityOtherEmailBinding
-import com.example.osrscritic.di.googleLoginViewModelModule
 import com.example.osrscritic.model.ResponseState
 import com.example.osrscritic.model.User
 import com.example.osrscritic.viewmodel.OtherLoginViewModel
@@ -122,8 +121,8 @@ class OtherEmailActivity : AppCompatActivity() {
 
                 is ResponseState.Success -> {
                     if(signInUser != null){
-                        val registerIntent = Intent(this, RegisterActivity::class.java)
-                        startActivity(registerIntent)
+                        val profileDetailsIntent = Intent(this, ProfileDetailsActivity::class.java)
+                        startActivity(profileDetailsIntent)
 
                     }
                 }

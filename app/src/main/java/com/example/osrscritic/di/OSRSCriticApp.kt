@@ -17,6 +17,7 @@ class OSRSCriticApp : Application() {
                 listOf(
                     googleLoginViewModelModule,
                     otherLoginViewModelModule,
+                    profileDetailsViewModel,
                     authModule,
                     firebaseDBModule,
                 )
