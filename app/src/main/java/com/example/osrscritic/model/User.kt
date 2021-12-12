@@ -6,6 +6,9 @@ data class User(
     val uid: String,
     val email: String?,
     val password: String,
+    var lng: Double = 0.0,
+    var lat: Double = 0.0,
+    val completedRegistration: Boolean = false,
 ) : Serializable {
     constructor() : this("","","")
 
