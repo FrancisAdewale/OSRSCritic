@@ -260,6 +260,8 @@ class OtherEmailActivity : AppCompatActivity() {
             u["email"] = otherUser?.email!!
             otherUser?.lat = lat
             otherUser?.lng = lng
+            u["firstName"] = otherUser.firstName
+            u["secondName"] = otherUser.firstName
             u["latitude"] = otherUser?.lat!!
             u["longitude"] = otherUser?.lng!!
             u["completedRegistration"] = otherUser?.completedRegistration!!

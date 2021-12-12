@@ -60,7 +60,9 @@ class AuthRepo {
                         val uid = user.uid
                         val email = email
                         val password = password
-                        otherUser = User(uid = uid, email = email, password = password)
+                        val firstName = ""
+                        val secondName = ""
+                        otherUser = User(uid = uid, email = email, password = password,firstName = firstName, secondName = secondName)
                         authenticatedOtherUserMutableLiveData.value =
                             ResponseState.Success(otherUser)
                     }

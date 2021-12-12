@@ -15,7 +15,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class ProfileDetailsActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityProfileDetailsBinding
-    val profileDetailsViewModel : ProfileDetailsViewModel by viewModel()
+    private val profileDetailsViewModel : ProfileDetailsViewModel by viewModel()
     private val currentUser = FirebaseAuth.getInstance().currentUser
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,6 +38,12 @@ class ProfileDetailsActivity : AppCompatActivity() {
                         val document = p0.result
 
                         if(document.exists()) {
+
+                            if(document["firstName"] == "" && document["secondName"] == "") {
+                                binding.tvFirstName.setHint(R.string.first_name)
+                                binding.tvSecondName.setHint(R.string.second_name)
+
+                            }
 
                             binding.tvFirstName.setText(document["firstName"].toString())
                             binding.tvSecondName.setText(document["secondName"].toString())
