@@ -16,7 +16,7 @@ val googleLoginViewModelModule = module {
 
 val otherLoginViewModelModule = module {
     viewModel {
-        OtherLoginViewModel(get())
+        OtherLoginViewModel(get(), get())
     }
 }
 

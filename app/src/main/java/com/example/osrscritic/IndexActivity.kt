@@ -135,7 +135,7 @@ class IndexActivity : AppCompatActivity() {
             googleUser?.lng = lng
             u["latitude"] = googleUser?.lat!!
             u["longitude"] = googleUser?.lng!!
-            val fullName = googleUser?.name?.split("")
+            val fullName = googleUser?.name?.split(" ")
             val firstName = fullName?.get(0)
             val secondName = fullName?.get(1)
             u["firstName"] = firstName!!

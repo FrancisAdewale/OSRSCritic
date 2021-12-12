@@ -16,6 +16,8 @@ class AuthRepo {
 
     private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
+    lateinit var otherUser: User
+
     fun firebaseSignInWithGoogle(googleAuthCredential: AuthCredential): MutableLiveData<ResponseState<GoogleUser>> {
         val authenticatedGoogleUserMutableLiveData: MutableLiveData<ResponseState<GoogleUser>> =
             MutableLiveData()
@@ -58,7 +60,7 @@ class AuthRepo {
                         val uid = user.uid
                         val email = email
                         val password = password
-                        val otherUser = User(uid = uid, email = email, password = password)
+                        otherUser = User(uid = uid, email = email, password = password)
                         authenticatedOtherUserMutableLiveData.value =
                             ResponseState.Success(otherUser)
                     }
@@ -71,6 +73,32 @@ class AuthRepo {
             }
 
         return authenticatedOtherUserMutableLiveData
+    }
+
+    fun firebaseSignInUserWithPassword(email: String, password: String): MutableLiveData<ResponseState<User>> {
+        val signInOtherUserMutableLiveData: MutableLiveData<ResponseState<User>> =
+            MutableLiveData()
+
+        firebaseAuth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener{ task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d("signedin email/password", "signInWithEmail:success")
+                    val user = firebaseAuth.currentUser
+                    if (user != null) {
+                        signInOtherUserMutableLiveData.value =
+                            ResponseState.Success(otherUser)
+                    }
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.w("Sign in fail email/pass", "signInWithEmail:failure", task.exception)
+//                    Toast.makeText(baseContext, "Authentication failed.",
+//                        Toast.LENGTH_SHORT).show()
+//                    updateUI(null)
+                }
+            }
+
+        return signInOtherUserMutableLiveData
     }
 
 
