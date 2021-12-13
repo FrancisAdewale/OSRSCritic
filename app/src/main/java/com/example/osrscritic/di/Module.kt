@@ -1,7 +1,7 @@
 package com.example.osrscritic.di
 
 import com.example.osrscritic.repo.AuthRepo
-import com.example.osrscritic.repo.FirebaseDBRepo
+import com.example.osrscritic.repo.FirebaseRepo
 import com.example.osrscritic.viewmodel.GoogleLoginViewModel
 import com.example.osrscritic.viewmodel.OtherLoginViewModel
 import com.example.osrscritic.viewmodel.ProfileDetailsViewModel
@@ -32,7 +32,7 @@ val authModule = module {
 }
 
 val firebaseDBModule = module {
-    single{ FirebaseDBRepo() }
+    single{ FirebaseRepo() }
 }
 
 

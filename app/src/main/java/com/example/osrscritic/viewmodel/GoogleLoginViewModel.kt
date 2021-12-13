@@ -6,14 +6,13 @@ import androidx.lifecycle.ViewModel
 import com.example.osrscritic.model.ResponseState
 import com.example.osrscritic.model.GoogleUser
 import com.example.osrscritic.repo.AuthRepo
-import com.example.osrscritic.repo.FirebaseDBRepo
+import com.example.osrscritic.repo.FirebaseRepo
 import com.google.firebase.auth.AuthCredential
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 
 class GoogleLoginViewModel(
     private val authRepo: AuthRepo,
-    private val firebaseDBRepo: FirebaseDBRepo
+    private val firebaseRepo: FirebaseRepo
 ): ViewModel() {
 
 
@@ -32,7 +31,7 @@ class GoogleLoginViewModel(
     }
 
     fun getFirebaseDbRef() {
-        _firebaseDbLiveData.postValue(firebaseDBRepo.ref)
+        _firebaseDbLiveData.postValue(firebaseRepo.ref)
     }
 
 

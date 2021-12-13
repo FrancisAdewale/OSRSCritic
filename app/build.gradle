@@ -10,7 +10,7 @@ android {
     defaultConfig {
         applicationId "com.example.osrscritic"
         minSdk 21
-        targetSdk 31
+        targetSdk 28
         versionCode 1
         versionName "1.0"
 
@@ -44,6 +44,8 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:29.0.1')
     implementation 'com.google.android.gms:play-services-auth:19.2.0'
     implementation 'com.google.firebase:firebase-auth:19.2.0'
+    implementation 'com.google.firebase:firebase-storage:19.1.0'
+
 
     implementation "com.google.android.gms:play-services-location:17.0.0"
 

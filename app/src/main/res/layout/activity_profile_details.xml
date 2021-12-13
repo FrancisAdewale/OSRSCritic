@@ -87,7 +87,7 @@
         />
 
     <Button
-        android:id="@+id/done_registration_btn"
+        android:id="@+id/done_profile_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
