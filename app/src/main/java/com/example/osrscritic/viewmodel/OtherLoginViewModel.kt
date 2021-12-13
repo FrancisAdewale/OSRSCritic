@@ -6,12 +6,12 @@ import androidx.lifecycle.ViewModel
 import com.example.osrscritic.model.ResponseState
 import com.example.osrscritic.model.User
 import com.example.osrscritic.repo.AuthRepo
-import com.example.osrscritic.repo.FirebaseDBRepo
+import com.example.osrscritic.repo.FirebaseRepo
 import com.google.firebase.firestore.CollectionReference
 
 class OtherLoginViewModel(
     private val authRepo: AuthRepo,
-    private val firebaseDBRepo: FirebaseDBRepo
+    private val firebaseRepo: FirebaseRepo
     ) : ViewModel() {
 
     private var _authOtherUserLiveData = MutableLiveData<ResponseState<User>>()
@@ -37,7 +37,7 @@ class OtherLoginViewModel(
     }
 
     fun getFirebaseDbRef() {
-        _firebaseDbLiveData.postValue(firebaseDBRepo.ref)
+        _firebaseDbLiveData.postValue(firebaseRepo.ref)
 
     }
 
