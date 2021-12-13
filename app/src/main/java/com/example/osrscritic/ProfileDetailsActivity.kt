@@ -22,6 +22,7 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.UploadTask
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
@@ -41,8 +42,6 @@ class ProfileDetailsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
-
         binding = ActivityProfileDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -51,14 +50,26 @@ class ProfileDetailsActivity : AppCompatActivity() {
 
         binding.uploadAvatarBtn.setOnClickListener {
 
-
             val intent = Intent()
             intent.type = "image/*"
             intent.action = Intent.ACTION_GET_CONTENT
             startActivityForResult(Intent.createChooser(intent, "Choose Avatar"), PICK_IMAGE)
         }
 
-        configureObservers()
+        getName()
+
+        binding.doneProfileBtn.setOnClickListener {
+            profileDetailsViewModel.profileDetailsLiveData.observe(this, {
+                val details : MutableMap<String, Any> = mutableMapOf()
+
+                details["firstName"] = binding.tvFirstName.text.toString()
+                details["secondName"] = binding.tvSecondName.text.toString()
+                details["osrsAccName"] = binding.tvOsrsAccName.text.toString()
+                details["completedRegistration"] = true
+
+                it.document(currentUser?.email!!).set(details, SetOptions.merge())
+            })
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -66,27 +77,28 @@ class ProfileDetailsActivity : AppCompatActivity() {
         if (requestCode == PICK_IMAGE && resultCode == RESULT_OK ) {
             Log.d("resultCode", resultCode.toString())
             imageUri = data?.data!!
-            profileDetailsViewModel.profileImageLiveData.observe(this, {
-                val imageRef = it.child(currentUser?.email + "_avatar")
-                    .child("profile/profile.jpg")
-
-                binding.ivAvatar.setImageURI(imageUri)
-
-
-
-                imageRef.putFile(imageUri).addOnSuccessListener {
-
-                }.addOnFailureListener{
-                    Toast.makeText(this,it.message,Toast.LENGTH_SHORT).show()
-
-                }
-
-            })
+           uploadImage()
         }
     }
 
+    private fun uploadImage() {
+        profileDetailsViewModel.profileImageLiveData.observe(this, {
+            val imageRef = it.child(currentUser?.email + "_avatar")
+                .child("profile/profile.jpg")
 
-    private fun configureObservers() {
+            binding.ivAvatar.setImageURI(imageUri)
+
+            imageRef.putFile(imageUri).addOnSuccessListener {
+
+            }.addOnFailureListener{
+                Toast.makeText(this,it.message,Toast.LENGTH_SHORT).show()
+
+            }
+
+        })
+    }
+
+    private fun getName() {
         profileDetailsViewModel.profileDetailsLiveData.observe(this, {
 
             it.document(currentUser?.email!!).get()
@@ -169,56 +181,4 @@ class ProfileDetailsActivity : AppCompatActivity() {
 
     }
 
-//    fun getFileFromUri(uri: Uri): File? {
-//        if (uri.path == null) {
-//            return null
-//        }
-//        var realPath = String()
-//        val databaseUri: Uri
-//        val selection: String?
-//        val selectionArgs: Array<String>?
-//        if (uri.path!!.contains("/document/image:")) {
-//            databaseUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-//            selection = "_id=?"
-//            selectionArgs = arrayOf(DocumentsContract.getDocumentId(uri).split(":")[1])
-//        } else {
-//            databaseUri = uri
-//            selection = null
-//            selectionArgs = null
-//        }
-//        try {
-//            val column = "_data"
-//            val projection = arrayOf(column)
-//            val cursor = this.contentResolver.query(
-//                databaseUri,
-//                projection,
-//                selection,
-//                selectionArgs,
-//                null
-//            )
-//            cursor?.let {
-//                if (it.moveToFirst()) {
-//                    val columnIndex = cursor.getColumnIndexOrThrow(column)
-//                    realPath = cursor.getString(columnIndex)
-//                }
-//                cursor.close()
-//            }
-//        } catch (e: Exception) {
-//            Log.i("GetFileUri Exception:", e.message ?: "")
-//        }
-//        val path = if (realPath.isNotEmpty()) realPath else {
-//            when {
-//                uri.path!!.contains("/document/raw:") -> uri.path!!.replace(
-//                    "/document/raw:",
-//                    ""
-//                )
-//                uri.path!!.contains("/document/primary:") -> uri.path!!.replace(
-//                    "/document/primary:",
-//                    "/storage/emulated/0/"
-//                )
-//                else -> return null
-//            }
-//        }
-//        return File(path)
-//    }
 }
