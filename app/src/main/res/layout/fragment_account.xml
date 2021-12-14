@@ -37,18 +37,20 @@
 
             <TextView
                 android:id="@+id/tv_full_name"
-                android:layout_width="200dp"
-                tools:text="Name"
+                android:layout_width="204dp"
+                android:padding="20dip"
                 android:textColor="@color/osrs_logo_color"
                 android:textSize="15sp"
-                android:padding="20dip" />
+                tools:text="Name" />
 
             <ImageView
-                android:layout_marginRight="90dp"
                 android:id="@+id/iv_account_avatar"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                tools:srcCompat="@tools:sample/avatars" />
+                android:layout_margin="8dp"
+                tools:srcCompat="@tools:sample/avatars"
+
+                />
 
         </TableRow>
 
@@ -60,7 +62,7 @@
 
             <TextView
                 android:id="@+id/tv_account_osrs_name"
-                android:layout_width="250dp"
+                android:layout_width="175dp"
                 android:gravity="center"
                 android:padding="20dip"
                 android:textColor="@color/osrs_logo_color"
@@ -77,11 +79,12 @@
 
             <TextView
                 android:id="@+id/tv_location"
+                android:layout_width="175dp"
                 android:gravity="center"
-                tools:text="LOCATION"
+                android:padding="20dip"
                 android:textColor="@color/osrs_logo_color"
                 android:textSize="15sp"
-                android:padding="20dip" />
+                tools:text="LOCATION" />
         </TableRow>
 
     </TableLayout>

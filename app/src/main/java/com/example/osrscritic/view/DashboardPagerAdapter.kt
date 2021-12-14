@@ -20,7 +20,7 @@ class DashboardPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecyc
 
         return when(position) {
             0 -> AccountFragment()
-            else -> MapFragment()
+            else -> MapsFragment()
         }
     }
 
