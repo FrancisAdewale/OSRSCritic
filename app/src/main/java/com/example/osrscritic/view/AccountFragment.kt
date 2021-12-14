@@ -14,6 +14,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import android.location.Geocoder
+import android.util.Log
+import android.widget.Toast
+import com.bumptech.glide.Glide
 import com.example.osrscritic.DashboardActivity
 import java.util.*
 
@@ -30,8 +33,25 @@ class AccountFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentAccountBinding.inflate(layoutInflater)
+
         accountFragmentViewModel.getFirebaseCollRef()
         accountFragmentViewModel.getFirebaseStorageRef()
+
+        accountFragmentViewModel.accountImageLiveData.observe(viewLifecycleOwner, {
+
+            it.child(currentUser?.email!!).child("profile/profile.jpg")
+                .downloadUrl.addOnSuccessListener {
+
+                    Glide.with(binding.ivAccountAvatar)
+                        .load(it)
+                        .into(binding.ivAccountAvatar);
+
+
+            }.addOnFailureListener {
+                Toast.makeText(activity,it.message,Toast.LENGTH_LONG).show()
+            }
+
+        })
 
         accountFragmentViewModel.accountInfoLiveData.observe(viewLifecycleOwner, {
             it.document(currentUser?.email!!).get()
@@ -44,17 +64,18 @@ class AccountFragment: Fragment() {
                             fullName += document["secondName"].toString()
 
                             binding.tvFullName.text = fullName
-                            binding.accountTitle.text = document["osrsAccName"].toString()
+                            binding.tvAccountOsrsName.text = document["osrsAccName"].toString()
 
-                            val lng = document["lng"] as Double
-                            val lat = document["lat"] as Double
+                            val lng  = document["longitude"]
+                            val lat = document["latitude"]
 
                             val geocoder = Geocoder(activity, Locale.getDefault())
                             val addresses: List<Address> =
-                                geocoder.getFromLocation(lat, lng, 1)
-                            val cityName: String = addresses[0].getAddressLine(0)
-                            val stateName: String = addresses[0].getAddressLine(1)
-                            val countryName: String = addresses[0].getAddressLine(2)
+                                geocoder.getFromLocation(lat as Double, lng as Double, 1)
+
+                            Log.d("addresses", addresses.toString())
+                            val cityName: String = addresses[0].locality
+                            val countryName: String = addresses[0].countryName
 
                             val loc = "$cityName, $countryName"
 
