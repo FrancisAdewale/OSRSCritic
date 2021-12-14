@@ -68,6 +68,8 @@ class ProfileDetailsActivity : AppCompatActivity() {
                 details["completedRegistration"] = true
 
                 it.document(currentUser?.email!!).set(details, SetOptions.merge())
+                val intent = Intent(this, DashboardActivity::class.java)
+                startActivity(intent)
             })
         }
     }
@@ -83,7 +85,7 @@ class ProfileDetailsActivity : AppCompatActivity() {
 
     private fun uploadImage() {
         profileDetailsViewModel.profileImageLiveData.observe(this, {
-            val imageRef = it.child(currentUser?.email + "_avatar")
+            val imageRef = it.child(currentUser?.email!!)
                 .child("profile/profile.jpg")
 
             binding.ivAvatar.setImageURI(imageUri)

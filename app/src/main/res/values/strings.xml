@@ -12,4 +12,6 @@
     <string name="osrs_account_name">OSRS Account Name</string>
     <string name="account_name_guidance">If your Runescape name has any spaces please use an _ i.e. Mr_Freaker</string>
     <string name="submit_registration">Submit</string>
+    <string name="account_title">Account</string>
+    <string name="sign_out">Sign Out</string>
 </resources>

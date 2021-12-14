@@ -2,6 +2,7 @@ package com.example.osrscritic.di
 
 import com.example.osrscritic.repo.AuthRepo
 import com.example.osrscritic.repo.FirebaseRepo
+import com.example.osrscritic.viewmodel.AccountFragmentViewModel
 import com.example.osrscritic.viewmodel.GoogleLoginViewModel
 import com.example.osrscritic.viewmodel.OtherLoginViewModel
 import com.example.osrscritic.viewmodel.ProfileDetailsViewModel
@@ -27,11 +28,17 @@ val profileDetailsViewModel = module {
     }
 }
 
+val accountDetailsViewModel = module {
+    viewModel {
+        AccountFragmentViewModel(get())
+    }
+}
+
 val authModule = module {
     single { AuthRepo() }
 }
 
-val firebaseDBModule = module {
+val firebaseModule = module {
     single{ FirebaseRepo() }
 }
 
