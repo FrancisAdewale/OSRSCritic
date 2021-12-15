@@ -1,5 +1,6 @@
 package com.example.osrscritic.view
 
+import android.content.Intent
 import androidx.fragment.app.Fragment
 
 import android.os.Bundle
@@ -8,8 +9,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.example.osrscritic.DisplayUserActivity
 import com.example.osrscritic.R
 import com.example.osrscritic.databinding.FragmentMapsBinding
+import com.example.osrscritic.repo.DisplayUserRepo
 import com.example.osrscritic.viewmodel.MapsFragmentViewModel
 
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -52,19 +55,21 @@ class MapsFragment : Fragment() {
                             .title(osrsName)
                             .snippet("Critique OSRS User"))
 
+
+
                         googleMap.setOnMarkerClickListener(object : GoogleMap.OnMarkerClickListener{
                             override fun onMarkerClick(p0: Marker): Boolean {
 
-
-                                p0.showInfoWindow()
                                 if (email != null) {
+                                    DisplayUserRepo.user= osrsName
+
+                                    val intent = Intent(activity, DisplayUserActivity::class.java)
+                                    startActivity(intent)
+
                                     Log.d("marker clickable", email)
                                     return true
                                 }
-
-
                                 return false
-
                             }
 
                         })
@@ -77,11 +82,7 @@ class MapsFragment : Fragment() {
             }
         })
 
-
-
     }
-
-
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,

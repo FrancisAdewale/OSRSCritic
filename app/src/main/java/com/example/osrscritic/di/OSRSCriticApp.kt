@@ -20,8 +20,12 @@ class OSRSCriticApp : Application() {
                     profileDetailsViewModel,
                     accountDetailsViewModel,
                     mapsFragmentViewModel,
+                    displayUserModule,
+                    displayUserRepoModule,
                     authModule,
                     firebaseModule,
+                    apiModule,
+                    retrofitModule,
                 )
             )
         }
