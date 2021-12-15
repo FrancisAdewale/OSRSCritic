@@ -3,11 +3,14 @@ package com.example.osrscritic.view
 import androidx.fragment.app.Fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.example.osrscritic.R
 import com.example.osrscritic.databinding.FragmentMapsBinding
+import com.example.osrscritic.viewmodel.MapsFragmentViewModel
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -15,30 +18,57 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.EventListener
+import com.google.firebase.firestore.FirebaseFirestoreException
+import com.google.firebase.firestore.QueryDocumentSnapshot
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.nio.MappedByteBuffer
 
 class MapsFragment : Fragment() {
 
+    lateinit var binding: FragmentMapsBinding
+    private val mapsFragmentViewModel: MapsFragmentViewModel by viewModel()
+    val currentUser = FirebaseAuth.getInstance().currentUser
+
     private val callback = OnMapReadyCallback { googleMap ->
-        /**
-         * Manipulates the map once available.
-         * This callback is triggered when the map is ready to be used.
-         * This is where we can add markers or lines, add listeners or move the camera.
-         * In this case, we just add a marker near Sydney, Australia.
-         * If Google Play services is not installed on the device, the user will be prompted to
-         * install it inside the SupportMapFragment. This method will only be triggered once the
-         * user has installed Google Play services and returned to the app.
-         */
-        val sydney = LatLng(-34.0, 151.0)
-        googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+
+        mapsFragmentViewModel.mapsLocationLiveData.observe(viewLifecycleOwner, {
+            it.get().addOnSuccessListener{
+                for(document in it.documents) {
+                    val data = document.data
+
+                    val email = data?.get("email") as String
+
+                    if(email != currentUser?.email) {
+
+                        val long = data?.get("longitude") as Double
+                        val lat = data?.get("latitude") as Double
+                        val userLoc = LatLng(lat, long)
+                        googleMap.addMarker(MarkerOptions().position(userLoc).title(email))
+
+                    }
+
+
+                }
+            }.addOnFailureListener {
+                Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
+            }
+        })
+
+
+
     }
 
-    lateinit var binding: FragmentMapsBinding
+
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         binding = FragmentMapsBinding.inflate(layoutInflater)
+        mapsFragmentViewModel.getFirebaseRef()
+
         return binding.root
     }
 

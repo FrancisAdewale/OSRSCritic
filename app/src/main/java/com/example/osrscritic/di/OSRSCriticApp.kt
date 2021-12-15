@@ -19,6 +19,7 @@ class OSRSCriticApp : Application() {
                     otherLoginViewModelModule,
                     profileDetailsViewModel,
                     accountDetailsViewModel,
+                    mapsFragmentViewModel,
                     authModule,
                     firebaseModule,
                 )
