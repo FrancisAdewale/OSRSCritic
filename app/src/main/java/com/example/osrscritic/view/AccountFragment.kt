@@ -74,7 +74,7 @@ class AccountFragment: Fragment() {
                                 geocoder.getFromLocation(lat as Double, lng as Double, 1)
 
                             Log.d("addresses", addresses.toString())
-                            val cityName: String = addresses[0].locality
+                            val cityName: String = addresses[0].subAdminArea
                             val countryName: String = addresses[0].countryName
 
                             val loc = "$cityName, $countryName"

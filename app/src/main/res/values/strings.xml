@@ -14,4 +14,10 @@
     <string name="submit_registration">Submit</string>
     <string name="account_title">Account</string>
     <string name="sign_out">Sign Out</string>
+    <string name="skill_type">Skill : %s</string>
+    <string name="xp">XP: %s</string>
+    <string name="rank_s">Rank: %s</string>
+    <string name="level">Level: %s</string>
+    <string name="account_name_s">Account Name: %s</string>
+    <string name="combat_level_s">Combat Level: %s</string>
 </resources>
