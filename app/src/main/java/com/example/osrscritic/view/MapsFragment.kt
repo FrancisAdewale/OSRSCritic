@@ -17,6 +17,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
@@ -45,9 +46,28 @@ class MapsFragment : Fragment() {
 
                         val long = data?.get("longitude") as Double
                         val lat = data?.get("latitude") as Double
+                        val osrsName = data?.get("osrsAccName") as String
                         val userLoc = LatLng(lat, long)
-                        googleMap.addMarker(MarkerOptions().position(userLoc).title(email))
+                        googleMap.addMarker(MarkerOptions().position(userLoc)
+                            .title(osrsName)
+                            .snippet("Critique OSRS User"))
 
+                        googleMap.setOnMarkerClickListener(object : GoogleMap.OnMarkerClickListener{
+                            override fun onMarkerClick(p0: Marker): Boolean {
+
+
+                                p0.showInfoWindow()
+                                if (email != null) {
+                                    Log.d("marker clickable", email)
+                                    return true
+                                }
+
+
+                                return false
+
+                            }
+
+                        })
                     }
 
 
