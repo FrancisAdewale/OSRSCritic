@@ -15,8 +15,8 @@ import java.io.File
 
 class DisplayUserViewModel(private val displayUserRepo: DisplayUserRepo) : ViewModel() {
 
-    private var _displayUserLiveData = MutableLiveData<Unit>()
-    val displayerUserLiveData : LiveData<Unit>
+    private var _displayUserLiveData = MutableLiveData<RunescapeResponse>()
+    val displayerUserLiveData : LiveData<RunescapeResponse>
         get() = _displayUserLiveData
 
     private val _loadingState = MutableLiveData<Boolean>()
@@ -36,7 +36,9 @@ class DisplayUserViewModel(private val displayUserRepo: DisplayUserRepo) : ViewM
                     override fun onResponse(call: Call<RunescapeResponse>,
                                             response: Response<RunescapeResponse>) {
                         if(response.isSuccessful) {
-                            Log.d("********Response",response.body().toString() )
+                            _displayUserLiveData.postValue(response.body())
+                            _loadingState.postValue(false)
+
 
                         }
                     }
