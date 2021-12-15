@@ -37,6 +37,7 @@ class DisplayUserActivity : AppCompatActivity() {
             statsAdapter.setStatsList(it.skillvalues)
             binding.tvRunescapeName.text = String.format("Account Name: %s", it.name)
             binding.tvCombat.text = String.format("Combat Level: %s", it.combatlevel.toString())
+
         })
 
         displayUserViewModel.loadingState.observe(this, {

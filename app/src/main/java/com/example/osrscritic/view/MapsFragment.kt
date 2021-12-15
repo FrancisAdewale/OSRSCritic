@@ -17,6 +17,7 @@ import com.example.osrscritic.viewmodel.MapsFragmentViewModel
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
@@ -53,26 +54,32 @@ class MapsFragment : Fragment() {
                         val userLoc = LatLng(lat, long)
                         googleMap.addMarker(MarkerOptions().position(userLoc)
                             .title(osrsName)
-                            .snippet("Critique OSRS User"))
+                            .snippet("Tap to critique RS user"))
 
 
+                        googleMap.setOnInfoWindowClickListener { marker ->
 
-                        googleMap.setOnMarkerClickListener(object : GoogleMap.OnMarkerClickListener{
-                            override fun onMarkerClick(p0: Marker): Boolean {
+                            DisplayUserRepo.user = osrsName
 
-                                if (email != null) {
-                                    DisplayUserRepo.user= osrsName
+                            val intent = Intent(activity, DisplayUserActivity::class.java)
+                            startActivity(intent)
 
-                                    val intent = Intent(activity, DisplayUserActivity::class.java)
-                                    startActivity(intent)
+                        }
 
-                                    Log.d("marker clickable", email)
-                                    return true
-                                }
-                                return false
-                            }
 
-                        })
+//                        googleMap.setOnMarkerClickListener(object : GoogleMap.OnMarkerClickListener{
+//                            override fun onMarkerClick(p0: Marker): Boolean {
+//
+//                                if (email != null) {
+//
+//
+//                                    Log.d("marker clickable", email)
+//                                    return true
+//                                }
+//                                return false
+//                            }
+//
+//                        })
                     }
 
 

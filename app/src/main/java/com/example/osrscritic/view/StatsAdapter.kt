@@ -17,9 +17,8 @@ class StatsAdapter : RecyclerView.Adapter<StatsViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StatsViewHolder {
 
-        val inflater = LayoutInflater.from(parent.context)
 
-        val binding = SkillRowItemBinding.inflate(inflater)
+        val binding = SkillRowItemBinding.inflate(LayoutInflater.from(parent.context),parent, false)
 
         return StatsViewHolder(binding)
 
