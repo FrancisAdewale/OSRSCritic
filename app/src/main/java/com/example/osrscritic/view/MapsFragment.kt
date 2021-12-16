@@ -57,11 +57,13 @@ class MapsFragment : Fragment() {
                             .snippet("Tap to critique RS user"))
 
 
-                        googleMap.setOnInfoWindowClickListener { marker ->
+                        googleMap.setOnInfoWindowClickListener { _ ->
 
                             DisplayUserRepo.user = osrsName
-
+                            val b = Bundle()
+                            b.putString("c",email)
                             val intent = Intent(activity, DisplayUserActivity::class.java)
+                            intent.putExtras(b)
                             startActivity(intent)
 
                         }

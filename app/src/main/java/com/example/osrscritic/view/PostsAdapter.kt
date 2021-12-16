@@ -5,14 +5,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.osrscritic.databinding.PostRowItemBinding
 import com.example.osrscritic.model.Skillvalue
+import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
 
 class PostsAdapter: RecyclerView.Adapter<PostsViewHolder>() {
 
-    private val postsMutableList : MutableList<QuerySnapshot> = mutableListOf()
+    private val postsMutableList : MutableList<CollectionReference> = mutableListOf()
 
-    fun setPostsList(statsList: List<QuerySnapshot>) {
+    fun setPostsList(statsList: List<CollectionReference>) {
         postsMutableList.addAll(statsList)
         notifyDataSetChanged()
     }
@@ -30,7 +31,6 @@ class PostsAdapter: RecyclerView.Adapter<PostsViewHolder>() {
 
         val post = postsMutableList[position]
 
-        
 
 
     }
@@ -38,4 +38,4 @@ class PostsAdapter: RecyclerView.Adapter<PostsViewHolder>() {
     override fun getItemCount() = postsMutableList.size
 }
 
-class PostsViewHolder(binding: PostRowItemBinding) : RecyclerView.ViewHolder(binding.root)
+class PostsViewHolder(val binding: PostRowItemBinding) : RecyclerView.ViewHolder(binding.root)

@@ -20,10 +20,10 @@ class DisplayUserViewModel(private val displayUserRepo
 
     private var _displayUserPostsLiveData = MutableLiveData<CollectionReference>()
     val displayUserPostsLiveData: LiveData<CollectionReference>
-        get() = displayUserPostsLiveData
+        get() = _displayUserPostsLiveData
 
     private var _displayUserLiveData = MutableLiveData<RunescapeResponse>()
-    val displayerUserLiveData : LiveData<RunescapeResponse>
+    val displayUserLiveData : LiveData<RunescapeResponse>
         get() = _displayUserLiveData
 
     private val _loadingState = MutableLiveData<Boolean>()
