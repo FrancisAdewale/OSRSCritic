@@ -3,6 +3,7 @@ package com.example.osrscritic.view
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -15,8 +16,13 @@ import android.widget.TextView
 import android.widget.EditText
 
 import android.view.Gravity
+import androidx.core.app.ActivityCompat.recreate
+import com.example.osrscritic.DisplayUserActivity
 import com.example.osrscritic.viewmodel.DisplayUserViewModel
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldPath
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.SetOptions
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -25,6 +31,7 @@ class PostDialogFragment: DialogFragment() {
     private val displayUserViewModel : DisplayUserViewModel by viewModel()
     val currentUser = FirebaseAuth.getInstance().currentUser
     lateinit var critiquing: String
+    val postsAdapter = PostsAdapter()
 
 
     companion object {
@@ -114,15 +121,33 @@ class PostDialogFragment: DialogFragment() {
                     displayUserViewModel.displayUserPostsLiveData.observe(it, {
                         val post : MutableMap<String, Any> = mutableMapOf()
 
+                        val posts : MutableList<String> = mutableListOf()
+
+                        posts.add(etString)
+
                         post["critic"] = currentUser?.email!!
-                        post["post"] = et.text.toString()
+                        post["posts"] = posts
+
+                        if(it.document(critiquing).collection("posts").document().equals(null)) {
+
+                            it.document(critiquing).collection("posts")
+                                .document(currentUser?.email!!).set(post)
+                        }
+
 
                         it.document(critiquing).collection("posts")
-                            .document(currentUser?.email!!).set(post)
-
+                            .document(currentUser?.email!!).update("posts", FieldValue.arrayUnion(etString))
 
                     })
+
+
                 }
+
+                activity!!.finish()
+                activity!!.overridePendingTransition( 0, 0);
+                startActivity(activity!!.intent)
+                postsAdapter.postsMutableList.clear()
+                activity!!.overridePendingTransition( 0, 0);
 
             }
 

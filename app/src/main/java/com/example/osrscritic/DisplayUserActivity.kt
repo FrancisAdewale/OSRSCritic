@@ -11,7 +11,9 @@ import com.example.osrscritic.view.PostDialogFragment
 import com.example.osrscritic.view.PostsAdapter
 import com.example.osrscritic.view.StatsAdapter
 import com.example.osrscritic.viewmodel.DisplayUserViewModel
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentSnapshot
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DisplayUserActivity : AppCompatActivity() {
@@ -26,9 +28,8 @@ class DisplayUserActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val extras = intent.extras
 
+
         critiquing = extras?.getString("c")!!
-
-
         binding = ActivityDisplayUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -52,15 +53,16 @@ class DisplayUserActivity : AppCompatActivity() {
                , PostDialogFragment.KEY)
 
 
-
-//            val intent = Intent(this, PostDialogFragment::class.java)
-//            intent.putExtras(b)
-//            startActivity(intent)
-
         }
+
     }
 
+
+
     private fun configureObservers() {
+
+        postsAdapter.postsMutableList.clear()
+
 
         displayUserViewModel.displayUserLiveData.observe(this, {
             statsAdapter.setStatsList(it.skillvalues)
@@ -81,7 +83,20 @@ class DisplayUserActivity : AppCompatActivity() {
 
         })
 
+        displayUserViewModel.displayUserPostsLiveData.observe(this, {
+            postsAdapter.postsMutableList.clear()
+            it.document(critiquing).collection("posts").get()
+                .addOnSuccessListener {
+                    postsAdapter.setPostsList(it.documents)
+                }
+
+
+
+        })
+
 
 
     }
+
+
 }
