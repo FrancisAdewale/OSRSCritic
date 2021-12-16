@@ -7,13 +7,20 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.osrscritic.model.RunescapeResponse
 import com.example.osrscritic.repo.DisplayUserRepo
+import com.example.osrscritic.repo.FirebaseRepo
+import com.google.firebase.firestore.CollectionReference
 import kotlinx.coroutines.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
 
-class DisplayUserViewModel(private val displayUserRepo: DisplayUserRepo) : ViewModel() {
+class DisplayUserViewModel(private val displayUserRepo
+: DisplayUserRepo, private val firebaseRepo: FirebaseRepo) : ViewModel() {
+
+    private var _displayUserPostsLiveData = MutableLiveData<CollectionReference>()
+    val displayUserPostsLiveData: LiveData<CollectionReference>
+        get() = displayUserPostsLiveData
 
     private var _displayUserLiveData = MutableLiveData<RunescapeResponse>()
     val displayerUserLiveData : LiveData<RunescapeResponse>
@@ -28,6 +35,10 @@ class DisplayUserViewModel(private val displayUserRepo: DisplayUserRepo) : ViewM
         get() = _errorData
 
     private var job: Job? = null
+
+    fun getFirebaseRef() {
+       _displayUserPostsLiveData.postValue(firebaseRepo.ref)
+    }
 
     fun getOSRSPlayer() {
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
