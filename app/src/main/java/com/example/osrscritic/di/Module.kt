@@ -67,7 +67,7 @@ val apiModule = module {
 
 val displayUserModule = module {
     single {
-        DisplayUserViewModel(get())
+        DisplayUserViewModel(get(),get())
     }
 }
 

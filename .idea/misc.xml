@@ -5,7 +5,7 @@
       <map>
         <entry key="..\:/Users/frank/AndroidStudioProjects/OSRSCritic/app/src/main/res/layout/activity_account.xml" value="0.25" />
         <entry key="..\:/Users/frank/AndroidStudioProjects/OSRSCritic/app/src/main/res/layout/activity_dashboard.xml" value="0.16" />
-        <entry key="..\:/Users/frank/AndroidStudioProjects/OSRSCritic/app/src/main/res/layout/activity_display_user.xml" value="0.14" />
+        <entry key="..\:/Users/frank/AndroidStudioProjects/OSRSCritic/app/src/main/res/layout/activity_display_user.xml" value="0.33" />
         <entry key="..\:/Users/frank/AndroidStudioProjects/OSRSCritic/app/src/main/res/layout/activity_index.xml" value="0.10520833333333333" />
         <entry key="..\:/Users/frank/AndroidStudioProjects/OSRSCritic/app/src/main/res/layout/activity_login_view.xml" value="0.18" />
         <entry key="..\:/Users/frank/AndroidStudioProjects/OSRSCritic/app/src/main/res/layout/activity_main.xml" value="0.22" />
@@ -13,6 +13,7 @@
         <entry key="..\:/Users/frank/AndroidStudioProjects/OSRSCritic/app/src/main/res/layout/activity_profile_details.xml" value="0.15" />
         <entry key="..\:/Users/frank/AndroidStudioProjects/OSRSCritic/app/src/main/res/layout/activity_register.xml" value="0.18" />
         <entry key="..\:/Users/frank/AndroidStudioProjects/OSRSCritic/app/src/main/res/layout/fragment_account.xml" value="0.25" />
+        <entry key="..\:/Users/frank/AndroidStudioProjects/OSRSCritic/app/src/main/res/layout/post_row_item.xml" value="0.22" />
         <entry key="..\:/Users/frank/AndroidStudioProjects/OSRSCritic/app/src/main/res/layout/skill_row_item.xml" value="0.25" />
       </map>
     </option>

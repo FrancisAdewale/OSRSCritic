@@ -48,40 +48,28 @@ class MapsFragment : Fragment() {
 
                     if(email != currentUser?.email) {
 
-                        val long = data?.get("longitude") as Double
-                        val lat = data?.get("latitude") as Double
-                        val osrsName = data?.get("osrsAccName") as String
-                        val userLoc = LatLng(lat, long)
+                        val long = data?.get("longitude") as? Double
+                        val lat = data?.get("latitude") as? Double
+                        val osrsName = data?.get("osrsAccName") as? String
+                        val userLoc = LatLng(lat!!, long!!)
                         googleMap.addMarker(MarkerOptions().position(userLoc)
                             .title(osrsName)
-                            .snippet("Tap to critique RS user"))
+                            .snippet(email))
 
 
-                        googleMap.setOnInfoWindowClickListener { marker ->
-
-                            DisplayUserRepo.user = osrsName
-
-                            val intent = Intent(activity, DisplayUserActivity::class.java)
-                            startActivity(intent)
-
-                        }
-
-
-//                        googleMap.setOnMarkerClickListener(object : GoogleMap.OnMarkerClickListener{
-//                            override fun onMarkerClick(p0: Marker): Boolean {
-//
-//                                if (email != null) {
-//
-//
-//                                    Log.d("marker clickable", email)
-//                                    return true
-//                                }
-//                                return false
-//                            }
-//
-//                        })
                     }
 
+
+                }
+
+                googleMap.setOnInfoWindowClickListener { marker ->
+
+                    DisplayUserRepo.user = marker.title.toString()
+                    val b = Bundle()
+                    b.putString("c",marker.snippet.toString())
+                    val intent = Intent(activity, DisplayUserActivity::class.java)
+                    intent.putExtras(b)
+                    startActivity(intent)
 
                 }
             }.addOnFailureListener {
