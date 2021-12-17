@@ -3,6 +3,7 @@ package com.example.osrscritic
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,13 +24,19 @@ class DisplayUserActivity : AppCompatActivity() {
     val statsAdapter = StatsAdapter()
     val postsAdapter = PostsAdapter()
     lateinit var critiquing: String
+    lateinit var accName: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val extras = intent.extras
 
+       postsAdapter.setHasStableIds(true)
+
+        accName = extras?.getString("acc")!!
 
         critiquing = extras?.getString("c")!!
+
+        Log.d("DisplayActivity", critiquing)
         binding = ActivityDisplayUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -52,12 +59,9 @@ class DisplayUserActivity : AppCompatActivity() {
            PostDialogFragment.newInstance(critiquing).show(supportFragmentManager
                , PostDialogFragment.KEY)
 
-
         }
 
     }
-
-
 
     private fun configureObservers() {
 
@@ -90,11 +94,7 @@ class DisplayUserActivity : AppCompatActivity() {
                     postsAdapter.setPostsList(it.documents)
                 }
 
-
-
         })
-
-
 
     }
 

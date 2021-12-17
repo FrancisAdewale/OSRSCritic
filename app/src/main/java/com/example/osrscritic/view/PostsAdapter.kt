@@ -16,6 +16,7 @@ class PostsAdapter: RecyclerView.Adapter<PostsViewHolder>() {
     val postsMutableList : MutableList<DocumentSnapshot> = mutableListOf()
 
     fun setPostsList(statsList: List<DocumentSnapshot>) {
+        postsMutableList.clear()
         postsMutableList.addAll(statsList)
         notifyDataSetChanged()
     }
@@ -34,22 +35,22 @@ class PostsAdapter: RecyclerView.Adapter<PostsViewHolder>() {
         val post = postsMutableList[position]
         holder.binding.tvCritic.text = post["critic"].toString()
 
-        val posts = post["posts"] as List<String>
-
-        var count = 0;
+//        val posts = post["posts"]
 
         holder.binding.tvActualPost.movementMethod = ScrollingMovementMethod()
-
-        for(p in posts) {
-            holder.binding.tvActualPost.append("${count}: " + p + "\n")
-            count++
-        }
-
-
+        holder.binding.tvActualPost.text = post["posts"].toString()
 
     }
 
     override fun getItemCount() = postsMutableList.size
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
 }
 
 class PostsViewHolder(val binding: PostRowItemBinding) : RecyclerView.ViewHolder(binding.root)
