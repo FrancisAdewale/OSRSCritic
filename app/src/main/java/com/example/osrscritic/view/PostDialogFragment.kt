@@ -140,7 +140,6 @@ class PostDialogFragment: DialogFragment() {
 
                     })
 
-
                 }
 
                 activity!!.finish()

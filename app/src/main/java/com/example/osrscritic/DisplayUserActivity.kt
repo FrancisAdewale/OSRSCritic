@@ -28,6 +28,9 @@ class DisplayUserActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val extras = intent.extras
 
+       postsAdapter.setHasStableIds(true);
+
+
 
         critiquing = extras?.getString("c")!!
         binding = ActivityDisplayUserBinding.inflate(layoutInflater)
@@ -56,8 +59,6 @@ class DisplayUserActivity : AppCompatActivity() {
         }
 
     }
-
-
 
     private fun configureObservers() {
 
@@ -90,11 +91,7 @@ class DisplayUserActivity : AppCompatActivity() {
                     postsAdapter.setPostsList(it.documents)
                 }
 
-
-
         })
-
-
 
     }
 

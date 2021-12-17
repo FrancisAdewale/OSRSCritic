@@ -16,12 +16,14 @@ class PostsAdapter: RecyclerView.Adapter<PostsViewHolder>() {
     val postsMutableList : MutableList<DocumentSnapshot> = mutableListOf()
 
     fun setPostsList(statsList: List<DocumentSnapshot>) {
+        postsMutableList.clear()
         postsMutableList.addAll(statsList)
         notifyDataSetChanged()
     }
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostsViewHolder {
+
 
         val binding = PostRowItemBinding.inflate(LayoutInflater.from(parent.context)
             ,parent,false)
@@ -31,12 +33,15 @@ class PostsAdapter: RecyclerView.Adapter<PostsViewHolder>() {
 
     override fun onBindViewHolder(holder: PostsViewHolder, position: Int) {
 
+
+
         val post = postsMutableList[position]
         holder.binding.tvCritic.text = post["critic"].toString()
 
         val posts = post["posts"] as List<String>
 
         var count = 0;
+
 
         holder.binding.tvActualPost.movementMethod = ScrollingMovementMethod()
 
@@ -50,6 +55,18 @@ class PostsAdapter: RecyclerView.Adapter<PostsViewHolder>() {
     }
 
     override fun getItemCount() = postsMutableList.size
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
+
+
+
+
 }
 
 class PostsViewHolder(val binding: PostRowItemBinding) : RecyclerView.ViewHolder(binding.root)
