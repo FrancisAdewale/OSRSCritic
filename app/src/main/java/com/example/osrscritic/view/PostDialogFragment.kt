@@ -33,12 +33,8 @@ class PostDialogFragment: DialogFragment() {
     lateinit var critiquing: String
     val postsAdapter = PostsAdapter()
 
-
     companion object {
         const val KEY: String = "KEY2"
-
-
-        //lateinit var param: String
 
         fun newInstance(text: String): PostDialogFragment {
             val args = Bundle()
@@ -48,17 +44,13 @@ class PostDialogFragment: DialogFragment() {
             return postDialogFragment
 
         }
-
     }
-
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
-
         critiquing = arguments?.getString(KEY)!!
 
-        Log.d("*******8", critiquing)
-
+        Log.d("*******PostDIALOG", critiquing)
         val builder = AlertDialog.Builder(activity)
 
         val layout = LinearLayout(activity)
@@ -68,25 +60,16 @@ class PostDialogFragment: DialogFragment() {
         )
         layout.orientation = LinearLayout.VERTICAL
         layout.layoutParams = parms
-
         layout.gravity = Gravity.CLIP_VERTICAL
         layout.setPadding(2, 2, 2, 2)
-
-        val tv = TextView(activity)
-        tv.text = "Text View title"
-        tv.setPadding(40, 40, 40, 40)
-        tv.gravity = Gravity.CENTER
-        tv.textSize = 20f
 
         val et = EditText(activity)
         var etString = ""
 
         et.addTextChangedListener(object: TextWatcher{
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
             override fun afterTextChanged(p0: Editable?) {
 
@@ -96,15 +79,6 @@ class PostDialogFragment: DialogFragment() {
             }
 
         })
-        val tv1 = TextView(activity)
-        tv1.text = "Input Student ID"
-
-        val tv1Params = LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT
-        )
-        tv1Params.bottomMargin = 5
-        //layout.addView(tv1, tv1Params)
         layout.addView(
             et,
             LinearLayout.LayoutParams(
@@ -117,29 +91,23 @@ class PostDialogFragment: DialogFragment() {
         builder.setView(layout).setPositiveButton("Done", object: DialogInterface.OnClickListener{
             override fun onClick(p0: DialogInterface?, p1: Int) {
 
+                postsAdapter.setHasStableIds(true)
+                
                 activity?.let {
                     displayUserViewModel.displayUserPostsLiveData.observe(it, {
                         val post : MutableMap<String, Any> = mutableMapOf()
-
-                        val posts : MutableList<String> = mutableListOf()
-
-                        posts.add(etString)
-
+                        //val posts : MutableList<String> = mutableListOf()
+                        //posts.add(etString)
                         post["critic"] = currentUser?.email!!
-                        post["posts"] = posts
-
-                        if(it.document(critiquing).collection("posts").document().equals(null)) {
+                        post["posts"] = etString
 
                             it.document(critiquing).collection("posts")
                                 .document(currentUser?.email!!).set(post)
-                        }
 
-
-                        it.document(critiquing).collection("posts")
-                            .document(currentUser?.email!!).update("posts", FieldValue.arrayUnion(etString))
-
+//                        it.document(critiquing).collection("posts")
+//                            .document(currentUser?.email!!).update("posts",
+//                                FieldValue.arrayUnion(etString))
                     })
-
                 }
 
                 activity!!.finish()

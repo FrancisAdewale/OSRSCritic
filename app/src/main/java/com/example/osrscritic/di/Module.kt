@@ -8,7 +8,6 @@ import com.example.osrscritic.viewmodel.*
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.riningan.retrofit2.converter.csv.CsvConverterFactory
 import okhttp3.OkHttpClient
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module

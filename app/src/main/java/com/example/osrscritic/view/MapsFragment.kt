@@ -55,11 +55,7 @@ class MapsFragment : Fragment() {
                         googleMap.addMarker(MarkerOptions().position(userLoc)
                             .title(osrsName)
                             .snippet(email))
-
-
                     }
-
-
                 }
 
                 googleMap.setOnInfoWindowClickListener { marker ->
@@ -67,8 +63,13 @@ class MapsFragment : Fragment() {
                     DisplayUserRepo.user = marker.title.toString()
                     val b = Bundle()
                     b.putString("c",marker.snippet.toString())
+
+                    Log.d("MarkerSnippet", marker.snippet.toString())
+                    val b2 = Bundle()
+                    b.putString("acc",marker.title.toString())
                     val intent = Intent(activity, DisplayUserActivity::class.java)
                     intent.putExtras(b)
+                    intent.putExtras(b2)
                     startActivity(intent)
 
                 }

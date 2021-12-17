@@ -30,6 +30,10 @@ class IndexActivity : AppCompatActivity() {
     lateinit var googleSignInClient: GoogleSignInClient
     var lat: Double = 0.0
     var lng: Double = 0.0
+
+     var latTest: Double? = 0.0
+     var lngTest: Double? = 0.0
+
     lateinit var mLocationProviderClient: FusedLocationProviderClient
     lateinit var binding: ActivityIndexBinding
     private val googleLoginViewModel : GoogleLoginViewModel by viewModel()
@@ -148,7 +152,7 @@ class IndexActivity : AppCompatActivity() {
         })
     }
 
-    private fun requestPermissions() {
+     fun requestPermissions() {
 
         Log.d("reqPermission", "Called")
 
@@ -159,7 +163,7 @@ class IndexActivity : AppCompatActivity() {
         )
     }
 
-    private fun getLastLocation() {
+     fun getLastLocation() {
 
         Log.d("getLastLoc", "Called")
 
@@ -182,6 +186,8 @@ class IndexActivity : AppCompatActivity() {
                         } else {
                             lat = location.latitude
                             lng = location.longitude
+                            lngTest = location.longitude
+                            latTest = location.latitude
 
                             Log.d("getlastlocCoords","${lat} + ${lng}")
                         }
@@ -199,7 +205,7 @@ class IndexActivity : AppCompatActivity() {
         }
     }
 
-    private fun checkPermissions(): Boolean {
+     fun checkPermissions(): Boolean {
 
         Log.d("checkPermissions", "Called")
 
@@ -214,7 +220,7 @@ class IndexActivity : AppCompatActivity() {
         // ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED
     }
 
-    private fun isLocationEnabled(): Boolean {
+     fun isLocationEnabled(): Boolean {
         Log.d("isLocEnabled", "Called")
 
         val locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
@@ -223,7 +229,7 @@ class IndexActivity : AppCompatActivity() {
         )
     }
 
-    private fun requestNewLocationData() {
+     fun requestNewLocationData() {
 
         Log.d("requestNewLoc", "Called")
 
@@ -246,12 +252,13 @@ class IndexActivity : AppCompatActivity() {
         )
     }
 
-    private val mLocationCallback: LocationCallback = object : LocationCallback() {
+     val mLocationCallback: LocationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
             val mLastLocation = locationResult.lastLocation
-            val lat = mLastLocation.latitude.toString()
-            val lng = mLastLocation.longitude.toString()
-            Log.d("mlocation", lat + " " + lng)
+            lat = mLastLocation.latitude
+            lng = mLastLocation.longitude
+            lngTest = mLastLocation.longitude
+            latTest = mLastLocation.latitude
         }
     }
 

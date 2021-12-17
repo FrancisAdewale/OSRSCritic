@@ -40,20 +40,7 @@
         android:inputType="textPassword"
         />
 
-    <TextView
-        android:id="@+id/register_tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        app:layout_constraintStart_toStartOf="@id/password_edit_text"
-        app:layout_constraintEnd_toEndOf="@id/password_edit_text"
-        app:layout_constraintTop_toBottomOf="@id/password_edit_text"
-        android:layout_margin="20dp"
-        android:text="@string/registerinfo_tv"
-        android:textSize="20sp"
-        android:gravity="center"
-        android:textColor="@color/osrs_logo_font_color"
-        android:focusable="true" />
+
 
     <Button
         android:id="@+id/other_login_btn"

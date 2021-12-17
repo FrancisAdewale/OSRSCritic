@@ -24,7 +24,6 @@ class PostsAdapter: RecyclerView.Adapter<PostsViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostsViewHolder {
 
-
         val binding = PostRowItemBinding.inflate(LayoutInflater.from(parent.context)
             ,parent,false)
 
@@ -33,24 +32,13 @@ class PostsAdapter: RecyclerView.Adapter<PostsViewHolder>() {
 
     override fun onBindViewHolder(holder: PostsViewHolder, position: Int) {
 
-
-
         val post = postsMutableList[position]
         holder.binding.tvCritic.text = post["critic"].toString()
 
-        val posts = post["posts"] as List<String>
-
-        var count = 0;
-
+//        val posts = post["posts"]
 
         holder.binding.tvActualPost.movementMethod = ScrollingMovementMethod()
-
-        for(p in posts) {
-            holder.binding.tvActualPost.append("${count}: " + p + "\n")
-            count++
-        }
-
-
+        holder.binding.tvActualPost.text = post["posts"].toString()
 
     }
 
@@ -63,10 +51,6 @@ class PostsAdapter: RecyclerView.Adapter<PostsViewHolder>() {
     override fun getItemViewType(position: Int): Int {
         return position
     }
-
-
-
-
 }
 
 class PostsViewHolder(val binding: PostRowItemBinding) : RecyclerView.ViewHolder(binding.root)
